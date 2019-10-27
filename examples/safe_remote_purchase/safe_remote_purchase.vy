@@ -33,7 +33,8 @@ def abort():
     assert self.unlocked #Is the contract still refundable?
     assert msg.sender == self.seller # Only the seller can refund
         # his deposit before any buyer purchases the item.
-    selfdestruct(self.seller) # Refunds the seller and deletes the contract.
+    send(self.seller, self.balance)  # FIXME: why doesn't selfdestruct work?
+    #selfdestruct(self.seller)  # Refunds the seller and deletes the contract.
 
 @public
 @payable
@@ -57,5 +58,6 @@ def received():
 
     # 3. Interaction
     send(self.buyer, self.value) # Return the buyer's deposit (=value) to the buyer.
-    selfdestruct(self.seller) # Return the seller's deposit (=2*value) and the
+    send(self.seller, self.balance)  # FIXME: why doesn't selfdestruct work?
+    #selfdestruct(self.seller) # Return the seller's deposit (=2*value) and the
                               # purchase price (=value) to the seller.

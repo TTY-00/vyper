@@ -54,4 +54,5 @@ def tokensToEth(sell_quantity: uint256(currency_value)):
 def ownerWithdraw():
     assert self.owner == msg.sender
     self.token_address.transfer(self.owner, as_unitless_number(self.totalTokenQty))
-    selfdestruct(self.owner)
+    send(self.owner, self.balance)  # FIXME: why doesn't selfdestruct work?
+    #selfdestruct(self.owner)
